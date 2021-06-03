@@ -1,0 +1,223 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <dos.h>
+
+struct room
+{char name[90];
+float wattage;};
+struct room room[15];
+//Declaration for cost
+static int totalcost;
+int main()
+{
+int roomnum,phaseselection,a[100],c=0;
+float phase,phase1,phase3,phasem,phasen,phasee;
+//Intro
+    printf("\n Hi,this is a House Electric Usage Calculator Project.\n This program's main purpose to calculate electric usage for month and it's cost for your home.\n");
+    printf("\n In turkey people have payment plans according to different tariffs.There are 2 different tariff types.\n If your tariff is one phased, you pay the same cost for every Kw/h electric every hour.\n ");
+    printf("But if your tariff is multi phased, you pay different cost values for different hours.");
+    printf("\n Hence, before you try to use program I suggest you to check your electric based devices wattages and details of your tariff.\n Press any key to continue..\n ");
+getch();
+system("CLS");//tariff selection
+    printf("\n Whats your tariff type?\n\n One phased(enter 1)\n\n Multi phased(enter 3)\n");
+    scanf(" %d",&phaseselection);
+    selection://I'll use this point after
+system("CLS");
+switch(phaseselection)
+{
+case 1:
+    printf(" What is the price you pay for 1 kW/h electricity?\n\n (If you don't know please enter 9.)\n");
+    scanf(" %f",&phase1);
+    system("CLS");
+if(phase1==9)
+{   printf(" It will be calculated as 0.6440 Turkish liras for every kw/h electric you use.");
+getch();
+system("CLS");
+    phase=0.6440;
+}
+else
+{
+    phase=phase1;
+}
+break;
+case 3:
+    tariff:
+    printf(" Do you know your multi phased tariffs details?\n\n(enter 1 if you know)\n\n(enter 9 if you don't know.)\n");
+    scanf(" %f",&phase3);
+    system("CLS");
+if(phase3==9)
+{
+    printf("It will be calculated as;\n 0.6522 Turkish liras for 06:00-17:00\n 0.9496 Turkish liras for 17:00-22:00\n 0.4143 Turkish liras for 22:00-06:00\n Press any key to continue");
+getch();
+system("CLS");
+    phasem=0.6522;
+    phasen=0.9496;
+    phasee=0.4143;
+}
+else if(phase3==1)
+{
+    printf("How much you pay between 06:00 - 17:00?.\n");
+    scanf("%f",&phasem);
+system("CLS");
+    printf("How much you pay between 17:00 - 22:00?.\n");
+    scanf("%f",&phasen);
+system("CLS");
+    printf("How much you pay between 22:00 - 06:00?.\n");
+    scanf("%f",&phasee);
+system("CLS");
+}
+else
+{
+    printf("Not a correct value!");
+    goto tariff;
+}
+break;
+default:
+    printf("Not a correct value!");
+    goto selection;
+}
+here:
+    if(c==0)
+{
+    printf("Please add a room.\n\n(yes=1)\n\n(no(shut the program off)=any other number)");
+}
+    else
+{
+    printf("Would you like to add a room?\n\n(yes=1)\n\n(no=any other number)");
+}
+    scanf("%d",&roomnum);
+system("CLS");
+int i;
+//I didn't want to ask devices one by one so I m using for array
+if(roomnum==1)
+{
+strcpy (room[0].name, "Lamp 1");
+    room[0].wattage = 60;
+strcpy (room[1].name, "Lamp 2");
+    room[1].wattage = 60;
+strcpy (room[2].name, "Lamp 3");
+    room[2].wattage = 60;
+strcpy (room[3].name, "Lamp 4");
+    room[3].wattage = 60;
+strcpy (room[4].name, "Washing Machine");
+    room[4].wattage = 750;
+strcpy (room[5].name, "Air Conditioner");
+    room[5].wattage = 1000;
+strcpy (room[6].name, "Television");
+    room[6].wattage = 70;
+strcpy (room[7].name, "Dish Washer");
+    room[7].wattage = 1800;
+strcpy (room[8].name, "Fridge");
+    room[8].wattage = 664;
+strcpy (room[9].name, "Water heater");
+    room[9].wattage = 1800;
+strcpy (room[10].name, "Oven");
+    room[10].wattage = 2150;
+strcpy (room[11].name, "Tea Machine");
+    room[11].wattage = 3000;
+strcpy (room[12].name, "Iron");
+    room[12].wattage = 1000;
+strcpy (room[13].name, "Other 1");
+    room[13].wattage = 0;
+strcpy (room[14].name, "Other 2");
+    room[14].wattage = 0;
+strcpy (room[15].name, "Other 3");
+    room[15].wattage = 0;
+
+c++;
+for(i=0;i<15;i++)
+{
+float time,timem,timen,timee;
+float watt;
+    printf("What is the wattage of %s?\n(Average is %.fW.Enter average if you don't know.)\n(Please enter 0 if you don't have such a device) ",room[i].name,room[i].wattage);
+    scanf("%f",&watt);
+if(watt>0){
+if(phaseselection==1)
+{
+timeval:
+    printf("How many hours you are using %s in a day?\n",room[i].name);
+    scanf("%f",&time);
+    if(time<=24)
+{
+a[0]++;
+totalcost+=(watt/1000)*(time*30)*phase;
+system("CLS");
+}
+else
+{
+    printf("You can't use a device more than 24 hours in a day");
+getch();
+system("CLS");
+goto timeval;
+
+}
+}
+else if(phaseselection==3)
+{
+timeval1:
+    printf("How many hours do you use your %s between 06:00 - 17:00\n> ", room[i].name);
+    scanf("%f", &timem);
+    if(timem<=24)
+{
+a[1]++;
+totalcost+=(watt/1000)*(timem*30)*phasem;
+}
+else
+{
+    printf("You can't use a device more than 24 hours in a day");
+getch();
+system("CLS");
+goto timeval1;
+}
+timeval2:
+    printf("How many hours do you use your %s between 17:00 - 22:00\n> ", room[i].name);
+    scanf("%f", &timen);
+    if(timen<=24)
+{
+a[2]++;
+totalcost+=(watt/1000)*(timen*30)*phasen;
+}
+    else
+{
+     printf("You can't use a device more than 24 hours in a day");
+getch();
+system("CLS");
+goto timeval2;
+}
+timeval3:
+    printf("How many hours do you use your %s between 22:00 - 06:00\n> ", room[i].name);
+    scanf("%f", &timee);
+    if(timee<=24)
+{
+a[3]++;
+totalcost+=(watt/1000)*(timee*30)*phasee;
+}
+else
+{
+    printf("You can't use a device more than 24 hours in a day");
+getch();
+system("CLS");
+goto timeval3;
+}
+system("CLS");
+}
+}
+else
+{
+system("CLS");
+}
+}
+goto here;
+}
+else
+{
+    printf("Calculating...\n");
+sleep(2);
+    printf("Press any key to see cost");
+getch();
+    printf("\nYou have %d rooms and cost you have to pay in this month is %d\n\n",c,totalcost);
+}
+return 0;
+}
